@@ -26,6 +26,10 @@ class Server(object):
             'Accept': 'application/json-rpc',
         })
         self.request = functools.partial(requests.post, url, **requests_kwargs)
+        if 'debug' in requests_kwargs:
+            self.debug = requests_kwargs['debug']
+        else:
+            self.debug = False
 
     def send_request(self, method_name, is_notification, params):
         """Issue the HTTP request to the server and return the method result (if not a notification)"""
@@ -33,6 +37,8 @@ class Server(object):
         try:
             headers = {'content-type': 'application/json'}
             response = self.request(data=request_body, headers=headers)
+            if(self.debug):
+                print '* Resquest body: %s' % (request_body)
         except requests.RequestException as requests_exception:
             raise TransportError('Error calling method %s' % method_name, requests_exception)
 
@@ -41,6 +47,8 @@ class Server(object):
 
         if not is_notification:
             try:
+                if(self.debug):
+                    print '* Response body: %s' % (response)
                 return self.parse_result(response.json())
             except ValueError as value_error:
                 raise TransportError('Cannot deserialize response body', value_error)
