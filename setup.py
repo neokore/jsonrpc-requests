@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jsonrpc-requests',
-    version='0.1',
+    version='0.1.1',
     author='Giuseppe Ciotta',
     author_email='gciotta@gmail.com',
     packages=('jsonrpc_requests',),
