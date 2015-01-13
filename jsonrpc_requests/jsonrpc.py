@@ -30,6 +30,7 @@ class Server(object):
             self.debug = requests_kwargs['debug']
         else:
             self.debug = False
+        print "Debug is " + str(self.debug)
 
     def send_request(self, method_name, is_notification, params):
         """Issue the HTTP request to the server and return the method result (if not a notification)"""
